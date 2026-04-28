@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirect...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script>
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    function redirect() {
+      const target = getQueryParam('target');
+
+      if (!target) {
+        document.body.innerHTML = '<p>Link non valido</p>';
+        return;
+      }
+
+      const decodedTarget = decodeURIComponent(target);
+
+      // Tentativo redirect automatico
+      window.location.href = decodedTarget;
+
+      // Fallback (es. se bloccato)
+      setTimeout(() => {
+        document.getElementById('manual-link').href = decodedTarget;
+        document.getElementById('fallback').style.display = 'block';
+      }, 1500);
+    }
+
+    window.onload = redirect;
+  </script>
+</head>
+
+<body style="font-family: sans-serif; text-align: center; padding: 40px;">
+  <h2>Reindirizzamento in corso...</h2>
+  <p>Se non succede nulla, clicca qui:</p>
+
+  <div id="fallback" style="display:none;">
+    <a id="manual-link" href="#">Apri l'app</a>
+  </div>
+</body>
+</html>
